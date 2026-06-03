@@ -52,6 +52,7 @@
     justify-content: center;
     font-size: 18px;
     flex-shrink: 0;
+   type="image/png" href="logo-materne.png">;
   }
 
   .nom-app {
@@ -242,12 +243,12 @@
     <button class="btn-oeil" onclick="toggleVision()" title="Afficher/masquer">👁</button>
   </div>
 
-  <button class="btn-generer" onclick="generer()">Générer le hash</button>
+  <button class="btn-generer" onclick="generer()">Générer le cryptage</button>
 
   <div class="zone-resultat" id="zone-resultat">
-    <div class="resultat-label">✅ Hash généré</div>
+    <div class="resultat-label">✅ Cryptage généré</div>
     <div class="hash-texte" id="hash-texte"></div>
-    <button class="btn-copier" onclick="copier()">📋 Copier le hash</button>
+    <button class="btn-copier" onclick="copier()">📋 Copier le crpytage</button>
     <p class="msg-copie" id="msg-copie">Copié dans le presse-papiers !</p>
   </div>
 
