@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur de mot de passe — Matern'inspect</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #ffffff;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .carte {
+    background: #fff;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 24px;
+    padding: 48px 40px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.07);
+    animation: monter 0.5s ease;
+  }
+
+  @keyframes monter {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .logo-ligne {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .pastille {
+    width: 36px;
+    height: 36px;
+    background: #e53935;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .nom-app {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: #1a1a1a;
+    letter-spacing: -0.3px;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: #1a1a1a;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .sous-titre {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .champ-wrapper {
+    position: relative;
+  }
+
+  input[type="password"], input[type="text"] {
+    width: 100%;
+    padding: 14px 48px 14px 16px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 16px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    color: #1a1a1a;
+    background: #fafafa;
+  }
+
+  input:focus {
+    border-color: #e53935;
+    background: #fff;
+  }
+
+  .btn-oeil {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #aaa;
+    padding: 4px;
+    transition: color 0.2s;
+  }
+
+  .btn-oeil:hover { color: #555; }
+
+  .btn-generer {
+    width: 100%;
+    margin-top: 20px;
+    padding: 15px;
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.2px;
+  }
+
+  .btn-generer:hover {
+    background: #c62828;
+    transform: translateY(-1px);
+  }
+
+  .btn-generer:active { transform: translateY(0); }
+
+  /* Zone résultat */
+  .zone-resultat {
+    display: none;
+    margin-top: 28px;
+    padding: 20px;
+    background: #f8fffe;
+    border: 1.5px solid #c8e6c9;
+    border-radius: 14px;
+    animation: monter 0.3s ease;
+  }
+
+  .resultat-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #2e7d32;
+    margin-bottom: 10px;
+  }
+
+  .hash-texte {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #1a1a1a;
+    word-break: break-all;
+    line-height: 1.6;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+
+  .btn-copier {
+    width: 100%;
+    margin-top: 12px;
+    padding: 11px;
+    background: #fff;
+    color: #2e7d32;
+    border: 1.5px solid #2e7d32;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-copier:hover {
+    background: #2e7d32;
+    color: #fff;
+  }
+
+  .msg-copie {
+    display: none;
+    text-align: center;
+    margin-top: 8px;
+    font-size: 13px;
+    color: #2e7d32;
+    font-weight: 500;
+  }
+
+  .separateur {
+    height: 1px;
+    background: #f0f0f0;
+    margin: 28px 0;
+  }
+
+  .info-bas {
+    font-size: 12px;
+    color: #bbb;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="carte">
+
+  <div class="logo-ligne">
+    <div class="pastille">🏭</div>
+    <span class="nom-app">Matern'inspect</span>
+  </div>
+
+  <h1>Générateur de mot de passe</h1>
+  <p class="sous-titre">Entrez un mot de passe pour obtenir son hash SHA-256 à ajouter dans le code du site.</p>
+
+  <label for="champ-mdp">Mot de passe</label>
+  <div class="champ-wrapper">
+    <input type="password" id="champ-mdp" placeholder="Entrez votre mot de passe…"
+      onkeydown="if(event.key==='Enter') generer()">
+    <button class="btn-oeil" onclick="toggleVision()" title="Afficher/masquer">👁</button>
+  </div>
+
+  <button class="btn-generer" onclick="generer()">Générer le hash</button>
+
+  <div class="zone-resultat" id="zone-resultat">
+    <div class="resultat-label">✅ Hash généré</div>
+    <div class="hash-texte" id="hash-texte"></div>
+    <button class="btn-copier" onclick="copier()">📋 Copier le hash</button>
+    <p class="msg-copie" id="msg-copie">Copié dans le presse-papiers !</p>
+  </div>
+
+  <div class="separateur"></div>
+
+  <p class="info-bas">Le hash généré est à coller dans le tableau <code>authorizedHashes</code> de votre fichier <code>index.html</code>.</p>
+
+</div>
+
+<script>
+  async function generer() {
+    const mdp = document.getElementById('champ-mdp').value;
+    if (!mdp) return;
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(mdp);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+    document.getElementById('hash-texte').textContent = hashHex;
+    document.getElementById('zone-resultat').style.display = 'block';
+    document.getElementById('msg-copie').style.display = 'none';
+  }
+
+  async function copier() {
+    const hash = document.getElementById('hash-texte').textContent;
+    await navigator.clipboard.writeText(hash);
+    document.getElementById('msg-copie').style.display = 'block';
+    setTimeout(() => document.getElementById('msg-copie').style.display = 'none', 2500);
+  }
+
+  function toggleVision() {
+    const input = document.getElementById('champ-mdp');
+    input.type = input.type === 'password' ? 'text' : 'password';
+  }
+</script>
+
+</body>
+</html>
