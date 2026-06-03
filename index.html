@@ -233,7 +233,7 @@
   </div>
 
   <h1>Générateur de mot de passe</h1>
-  <p class="sous-titre">Entrez un mot de passe pour obtenir son hash SHA-256 à ajouter dans le code du site.</p>
+  <p class="sous-titre">Entrez un mot de passe pour obtenir son cryptage à ajouter dans le code du site.</p>
 
   <label for="champ-mdp">Mot de passe</label>
   <div class="champ-wrapper">
@@ -242,10 +242,10 @@
     <button class="btn-oeil" onclick="toggleVision()" title="Afficher/masquer">👁</button>
   </div>
 
-  <button class="btn-generer" onclick="generer()">Générer le hash</button>
+  <button class="btn-generer" onclick="generer()">Générer le cryptage</button>
 
   <div class="zone-resultat" id="zone-resultat">
-    <div class="resultat-label">✅ Hash généré</div>
+    <div class="resultat-label">✅ Crpytage généré</div>
     <div class="hash-texte" id="hash-texte"></div>
     <button class="btn-copier" onclick="copier()">📋 Copier le hash</button>
     <p class="msg-copie" id="msg-copie">Copié dans le presse-papiers !</p>
@@ -253,7 +253,7 @@
 
   <div class="separateur"></div>
 
-  <p class="info-bas">Le hash généré est à coller dans le tableau <code>authorizedHashes</code> de votre fichier <code>index.html</code>.</p>
+  <p class="info-bas">Le cryptage généré est à coller dans le tableau <code>authorizedHashes</code> de votre fichier <code>index.html</code>.</p>
 
 </div>
 
